@@ -1,0 +1,16 @@
+---
+import { SITE } from "@consts";
+import PageLayout from "@layouts/PageLayout.astro";
+---
+
+<PageLayout title="Home" description={SITE.DESCRIPTION}>
+  <div class="relative w-full h-full flex items-center justify-center">
+    <div class="p-5 text-center">
+      <p
+        class="animated text-lg md:text-xl lg:text-2xl font-semibold opacity-75"
+      >
+        You took a wrong turn ¯\_(ツ)_/¯
+      </p>
+    </div>
+  </div>
+</PageLayout>
