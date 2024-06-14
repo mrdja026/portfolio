@@ -4,7 +4,6 @@ import PageLayout from "@layouts/PageLayout.astro";
 import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import { WORK } from "@consts";
-
 const collection = await getCollection("work");
 
 collection.sort(
@@ -31,7 +30,11 @@ function formatWorkDate(input: Date | string) {
 }
 ---
 
-<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
+<PageLayout
+  title={WORK.TITLE}
+  description={WORK.DESCRIPTION}
+  keywords={WORK.KEYWORDS}
+>
   <TopLayout>
     <div class="animate page-heading">
       {WORK.TITLE}

@@ -2,15 +2,21 @@ import type { Site, Page, Links, Socials } from "@types";
 
 // Global
 export const SITE: Site = {
-  TITLE: "mrdjan.net",
-  DESCRIPTION: "Mrdjan Stajic - Software Developer",
-  AUTHOR: "Mark Horn",
+  TITLE: "mrdjan.net - Mrdjan Stajic",
+  DESCRIPTION:
+    "Experienced Frontend Developer skilled in ReactJS, TypeScript, and cloud platforms. Explore my professional journey and expertise.",
+  AUTHOR: "Mrdjan Stajic",
+  KEYWORDS:
+    "Frontend Developer, ReactJS, TypeScript, JavaScript, Node.js, AngularJS, Next.js, C#, ASP.NET, MongoDB",
 };
 
 // Work Page
 export const WORK: Page = {
   TITLE: "Work",
-  DESCRIPTION: "Places I have worked.",
+  DESCRIPTION:
+    "Mrđan Stajić's work experience spans frontend development, cloud platforms, and web applications. Dive into my roles at Bosch Digital Serbia, Videobolt, Ernst & Young, and more.",
+  KEYWORDS:
+    "Professional Experience, Frontend Developer, ReactJS Developer, TypeScript Developer, Software Developer, Cloud Platform Development, Microservice Architecture, JavaScript Developer, Full-Stack Developer, Web Application Development",
 };
 
 // // Blog Page
@@ -23,6 +29,8 @@ export const WORK: Page = {
 export const PROJECTS: Page = {
   TITLE: "Projects",
   DESCRIPTION: "Projects i have worked on.",
+  KEYWORDS:
+    "Professional Experience, Frontend Developer, ReactJS Developer, TypeScript Developer, Software Developer, Cloud Platform Development, Microservice Architecture, JavaScript Developer, Full-Stack Developer, Web Application Development",
 };
 
 // // Search Page
