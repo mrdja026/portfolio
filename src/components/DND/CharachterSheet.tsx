@@ -1,4 +1,4 @@
-import { createResource, For, Switch } from "solid-js";
+import { createResource, For, Match, Show, Switch } from "solid-js";
 
 type ICharachterSheet = {
   name?: string;
@@ -7,13 +7,19 @@ type ICharachterSheet = {
   classString?: string;
 };
 
-const fetchRaces = async () => {
-  await fetch("http://localhost:3333/races",{
+type TData = {
+  count: number;
+  results: {
+    name: string;
+  }[];
+};
+
+const fetchRaces = async (): Promise<TData> => {
+  return await fetch("http://localhost:3333/races", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    
   })
     .then((res) => res.json())
     .catch((err) => {
@@ -21,13 +27,12 @@ const fetchRaces = async () => {
     });
 };
 
-const fetchClasses = async () => {
-  await fetch("http://localhost:3333/classes",{
+const fetchClasses = async (): Promise<TData> => {
+  return await fetch("http://localhost:3333/classes", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    
   })
     .then((res) => res.json())
     .catch((err) => {
@@ -40,8 +45,47 @@ export default function CharacterSheet({
   partyId,
   raceString,
 }: ICharachterSheet) {
-  const [races] = createResource(fetchRaces);
-  const [classes] = createResource(fetchClasses);
+  const [races] = createResource<TData>(fetchRaces);
+  const [classes] = createResource<TData>(fetchClasses);
+  const submitData = async () => {
+    const nameInput = document.getElementById("name") as HTMLInputElement;
+    const partyInput = document.getElementById("party") as HTMLInputElement;
+    const raceSelect = document.getElementById("race") as HTMLSelectElement;
+    const classSelect = document.getElementById("class") as HTMLSelectElement;
+
+    const name = nameInput.value;
+    const partyNo = partyInput.value;
+    const raceName = raceSelect.value;
+    const className = classSelect.value;
+
+    const data = {
+      name,
+      partyNo,
+      raceName,
+      className,
+    };
+    console.log("Data", data);
+    try {
+      const response = await fetch("http://localhost:3333/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log("Data submitted successfully");
+      } else {
+        // Handle error
+        console.log("Error submitting data");
+      }
+    } catch (error) {
+      console.log("Error submitting data", error);
+    }
+  };
+
   return (
     <div class="w-full bg-gray-100 dark:bg-gray-800 p-6 md:p-10">
       <div class="max-w-5xl mx-auto grid gap-8 md:grid-cols-[1fr_300px] items-start">
@@ -103,12 +147,34 @@ export default function CharacterSheet({
                 >
                   Race
                 </label>
-                <Switch when={!races.loading}>
-                <select >
-                  <p>asdas</p>
-                </select>
+                <Switch
+                  fallback={<p class="text-muted-foreground">Loading...</p>}
+                >
+                  <Match when={!races.loading}>
+                    <select class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                      <Show when={races()}>
+                        {(value) => (
+                          <>
+                            <For each={value().results}>
+                              {({ name }, _) => (
+                                <option
+                                  class="text-sm font-medium text-muted-foreground"
+                                  value={name}
+                                  id="race"
+                                >
+                                  {name}
+                                </option>
+                              )}
+                            </For>
+                          </>
+                        )}
+                      </Show>
+                    </select>
+                  </Match>
+                  <Match when={races.error}>
+                    <span>Error: {races.error()}</span>
+                  </Match>
                 </Switch>
-                
               </div>
               <div class="space-y-2">
                 <label
@@ -117,17 +183,42 @@ export default function CharacterSheet({
                 >
                   Class
                 </label>
-                <input
-                  disabled={classes.loading}
-                  class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  id="class"
-                  placeholder="Enter class"
-                />
+                <Switch
+                  fallback={<p class="text-muted-foreground">Loading...</p>}
+                >
+                  <Match when={!classes.loading}>
+                    <select class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                      <Show when={classes()}>
+                        {(value) => (
+                          <>
+                            <For each={value().results}>
+                              {({ name }) => (
+                                <option
+                                  id="class"
+                                  class="text-sm font-medium text-muted-foreground"
+                                  value={name}
+                                >
+                                  {name}
+                                </option>
+                              )}
+                            </For>
+                          </>
+                        )}
+                      </Show>
+                    </select>
+                  </Match>
+                  <Match when={classes.error}>
+                    <span>Error: {classes.error()}</span>
+                  </Match>
+                </Switch>
               </div>
             </div>
           </div>
           <div class="flex items-center p-6">
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-auto">
+            <button
+              onClick={submitData}
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ml-auto"
+            >
               Start Game
             </button>
           </div>
