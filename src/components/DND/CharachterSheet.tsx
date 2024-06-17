@@ -1,4 +1,4 @@
-import { createResource } from "solid-js";
+import { createResource, For, Switch } from "solid-js";
 
 type ICharachterSheet = {
   name?: string;
@@ -8,7 +8,13 @@ type ICharachterSheet = {
 };
 
 const fetchRaces = async () => {
-  await fetch("http://localhost:3333/races")
+  await fetch("http://localhost:3333/races",{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    
+  })
     .then((res) => res.json())
     .catch((err) => {
       console.log("DEBUG-RACES", err);
@@ -16,7 +22,13 @@ const fetchRaces = async () => {
 };
 
 const fetchClasses = async () => {
-  await fetch("http://localhost:3333/classes")
+  await fetch("http://localhost:3333/classes",{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    
+  })
     .then((res) => res.json())
     .catch((err) => {
       console.log("DEBUG-CLASSES", err);
@@ -91,11 +103,12 @@ export default function CharacterSheet({
                 >
                   Race
                 </label>
-                <input
-                  class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  id="race"
-                  placeholder="Enter race"
-                />
+                <Switch when={!races.loading}>
+                <select >
+                  <p>asdas</p>
+                </select>
+                </Switch>
+                
               </div>
               <div class="space-y-2">
                 <label
