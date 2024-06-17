@@ -33,6 +33,13 @@ export const PROJECTS: Page = {
     "Professional Experience, Frontend Developer, ReactJS Developer, TypeScript Developer, Software Developer, Cloud Platform Development, Microservice Architecture, JavaScript Developer, Full-Stack Developer, Web Application Development",
 };
 
+export const DND: Page = {
+  TITLE: `DnD = Dungeons and Dragons "game engine"`,
+  DESCRIPTION: `Dungeons and Dragons "game engine"`,
+  KEYWORDS:
+    "DND , Dungeons and Dragons, Game Engine, ReactJS, TypeScript, JavaScript, Node.js, MongoDB, Express, Socket.io, WebSockets, Web Application Development, Full-Stack Developer, Frontend Developer, Backend Developer, Software Developer, Cloud Platform Development, Microservice Architecture, JavaScript Developer, Full-Stack Developer, Web Application Development",
+};
+
 // // Search Page
 // export const SEARCH: Page = {
 //   TITLE: "Search",

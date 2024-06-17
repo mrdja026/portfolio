@@ -1,0 +1,22 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import TopLayout from "@layouts/TopLayout.astro";
+import CharacterSheet from "@components/DND/CharachterSheet";
+import { DND } from "@consts";
+import Container from "@components/Container.astro";
+---
+
+<PageLayout
+  title={DND.TITLE}
+  description={DND.DESCRIPTION}
+  keywords={DND.KEYWORDS}
+>
+  <TopLayout>
+    <div class="animate page-heading">
+      {DND.TITLE}
+    </div>
+  </TopLayout>
+  <Container size="xl">
+    <CharacterSheet client:only />
+  </Container>
+</PageLayout>
