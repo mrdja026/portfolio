@@ -60,11 +60,10 @@ export default function CharacterSheet({
 
     const data = {
       name,
-      partyNo,
-      raceName,
-      className,
+      race_id: raceName,
+      class_id: className,
+      status: "default",
     };
-    console.log("Data", data);
     try {
       const response = await fetch("http://localhost:3333/start", {
         method: "POST",
@@ -155,14 +154,14 @@ export default function CharacterSheet({
                       <Show when={races()}>
                         {(value) => (
                           <>
-                            <For each={value().results}>
-                              {({ name }, _) => (
+                            <For each={[1, 2]}>
+                              {(race, _) => (
                                 <option
                                   class="text-sm font-medium text-muted-foreground"
-                                  value={name}
+                                  value={race}
                                   id="race"
                                 >
-                                  {name}
+                                  {race}
                                 </option>
                               )}
                             </For>
@@ -191,14 +190,14 @@ export default function CharacterSheet({
                       <Show when={classes()}>
                         {(value) => (
                           <>
-                            <For each={value().results}>
-                              {({ name }) => (
+                            <For each={[1, 2]}>
+                              {(race) => (
                                 <option
                                   id="class"
                                   class="text-sm font-medium text-muted-foreground"
-                                  value={name}
+                                  value={race}
                                 >
-                                  {name}
+                                  {race}
                                 </option>
                               )}
                             </For>
