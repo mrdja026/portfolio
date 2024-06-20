@@ -1,9 +1,10 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
 import TopLayout from "@layouts/TopLayout.astro";
-import CharacterSheet from "@components/DND/CharacterSheet";
+
 import { DND } from "@consts";
 import Container from "@components/Container.astro";
+import StartScreen from "@components/DND/game/StartScreen";
 ---
 
 <PageLayout
@@ -14,9 +15,8 @@ import Container from "@components/Container.astro";
   <TopLayout>
     <div class="animate page-heading">
       {DND.TITLE}
+      <StartScreen client:load />
     </div>
   </TopLayout>
-  <Container size="xl">
-    <CharacterSheet client:only="solid" />
-  </Container>
+  <Container size="xl" />
 </PageLayout>

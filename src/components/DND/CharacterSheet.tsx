@@ -4,7 +4,7 @@ type ICharachterSheet = {
   name?: string;
   partyId?: string;
   raceString?: string;
-  classString?: string;
+  className?: string;
 };
 
 type TData = {
@@ -43,7 +43,7 @@ const fetchClasses = async (): Promise<TData> => {
 export default function CharacterSheet({
   name,
   partyId,
-  raceString,
+  className,
 }: ICharachterSheet) {
   const [races] = createResource<TData>(fetchRaces);
   const [classes] = createResource<TData>(fetchClasses);
